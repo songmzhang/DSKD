@@ -11,7 +11,7 @@ Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/
 The processed data used in our paper can be downloaded [here](https://drive.google.com/drive/folders/1ZUsNVgWevACV9D-AHVNi9C7PX_2itzb8?usp=sharing).
 
 ## Models
-You can download the corresponding model files (pytorch_model.bin or model.safetensors) of LLMs used in this paper into `model_hub/*/*/`.
+You can download the corresponding model files (e.g., `pytorch_model.bin` or `model.safetensors`) of LLMs used in this paper into `model_hub/*/*/`.
 
 ## Training
 ### SFT for teacher models
