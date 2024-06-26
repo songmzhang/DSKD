@@ -5,7 +5,7 @@
 <a href="https://arxiv.org/abs/2406.17328"><img src="https://img.shields.io/badge/Paper-arXiv:2406.17328-Green"></a>
 <a href=#bibtex><img src="https://img.shields.io/badge/Paper-BibTex-yellow"></a>
 
-Some of our code follows MiniLLM and [Distillm](https://github.com/jongwooko/distillm/tree/master).
+Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/minillm) and [Distillm](https://github.com/jongwooko/distillm/tree/master).
 
 ## Data
 The processed data used in our paper can be downloaded [here](https://drive.google.com/drive/folders/1ZUsNVgWevACV9D-AHVNi9C7PX_2itzb8?usp=sharing).
@@ -114,3 +114,16 @@ bash scripts/gpt2/run_eval.sh ${CKPT_PATH} ${EVAL_BATCH_SIZE}
 bash scripts/tinyllama/run_eval_lora.sh ${LORA_ADAPTER_PATH} ${EVAL_BATCH_SIZE}
 ```
 Please note to change `MODEL_PATH` for different base models (TinyLLaMA, LLaMA2, Mistral).
+
+
+## BibTeX
+If you find this repo useful for your research, please consider citing our paper:
+
+```
+@article{zhang2024dskd,
+      title={Dual-Space Knowledge Distillation for Large Language Models}, 
+      author={Songming Zhang and Xue Zhang and Zengkui Sun and Yufeng Chen and Jinan Xu},
+      year={2024},
+      journal={arXiv preprint arXiv:2406.17328},
+}
+```
