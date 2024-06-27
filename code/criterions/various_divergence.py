@@ -164,7 +164,7 @@ class VariousDivergence(CrossEntropyLoss):
         sorted_probs = probs.gather(-1, sorted_idx)
         gap = (sorted_teacher_probs - sorted_probs).abs()
         cum_teacher_probs = torch.cumsum(sorted_teacher_probs, -1)
-        tail_mask = cum_teacher_probs.lt(alpha).float()
+        tail_mask = cum_teacher_probs.le(alpha).float()
         g_head = (gap * (1 - tail_mask)).sum(-1).detach()
         g_tail = (gap * tail_mask).sum(-1).detach()
 
