@@ -7,6 +7,13 @@
 
 Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/minillm) and [Distillm](https://github.com/jongwooko/distillm/tree/master).
 
+## Requirements
+- deepspeed >= 0.14.0
+- torch >= 2.0.1
+- transformers >= 4.40.2
+- peft >= 0.8.2
+- rouge_score >= 0.1.2
+
 ## Data
 The processed data used in our paper can be downloaded [here](https://drive.google.com/drive/folders/1ZUsNVgWevACV9D-AHVNi9C7PX_2itzb8?usp=sharing).
 
