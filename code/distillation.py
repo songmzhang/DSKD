@@ -88,7 +88,7 @@ def finetune(
 
     sampler = DistributedSampler(
         dataset["train"], 
-        shuffle=False, 
+        shuffle=True, 
         drop_last=True, 
         rank=dp_rank, 
         num_replicas=dp_world_size
