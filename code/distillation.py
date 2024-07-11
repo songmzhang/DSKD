@@ -286,6 +286,7 @@ def finetune(
                         shutil.rmtree(removed_model["path"])
 
                     log_rank(f"Model has been saved to {save_dir_path}")
+                dist.barrier()
             else:
                 ckpt_name = "epoch{}_step{}".format(
                     epoch + 1, 
@@ -318,6 +319,7 @@ def finetune(
                         shutil.rmtree(removed_model["path"])
 
                     log_rank(f"Model has been saved to {save_dir_path}")
+                dist.barrier()
 
     total_seconds = time.time() - start_time
     log_rank("Done training in {:0>2}:{:0>2}:{:0>2}".format(
