@@ -121,6 +121,31 @@ For TinyLLaMA-1.1B, run:
 bash scripts/tinyllama/dskd_cma_tinyllama.sh
 ```
 
+### File Structures in Output Directory
+The output directory will be created automatically after you run the training scripts. The specific file structure of this directory is as follows:
+```
+output_dir_in_training_scripts/
+│
+├── checkpoint1 (model files of checkpoint1, you can directly load it by AutoModelForCausalLM.from_pretrained(this path))/
+│   ├── config.json
+│   └── pytorch_model.bin
+│   └── tokenizer.json
+│   └── ...
+│
+├── checkpoint2 (only exists when SAVE_BEST_N_CKPTS >= 2, similar to checkpoint1/)/
+│   ├── config.json
+│   └── pytorch_model.bin
+│   └── tokenizer.json
+│   └── ...
+│
+└── ...
+│
+└── args.json (The arguments in training)
+│
+└── train.log (The log file in training)
+```
+
+
 ## Evaluation
 ### Evaluate Full Fine-tuning Checkpoints
 ```bash
