@@ -56,6 +56,9 @@ For TinyLLaMA-1.1B (LoRA), run:
 bash scripts/tinyllama/sft_tinyllama.sh
 ```
 
+P.S. You may encounter an error **when directly loading the model checkpoint of TinyLLaMA**. This is because of the mismatched versions of `transformers` between TinyLLaMA suggested (4.31) and the one you use.
+A concise solution to fix this can be referred to in [this issue](https://github.com/songmzhang/DSKD/issues/8).
+
 ### KD for the Same Vocabulary
 #### Vanilla KD framework
 For GPT2-base, run:
