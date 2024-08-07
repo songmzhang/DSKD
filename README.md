@@ -125,17 +125,18 @@ bash scripts/tinyllama/dskd_cma_tinyllama.sh
 ```
 
 ### File Structures in Output Directory
-The output directory will be created automatically after you run the training scripts. The specific file structure of this directory is as follows:
+The output directory will be created under `./outputs` automatically after you run the training scripts. 
+For full fine-tuning, the file structure of the output directory is as follows (take gpt2 SFT as an example):
 ```
-output_dir_in_training_scripts/
+./outputs/gpt2/gpt2-base/sft/criterion=cross_entropy__default-bf16__.../
 │
-├── checkpoint1 (model files of checkpoint1, you can directly load it by AutoModelForCausalLM.from_pretrained(this path))/
+├── epochA_step... (model files of epoch A, you can directly load it by AutoModelForCausalLM.from_pretrained(this path))/
 │   ├── config.json
 │   └── pytorch_model.bin
 │   └── tokenizer.json
 │   └── ...
 │
-├── checkpoint2 (only exists when SAVE_BEST_N_CKPTS >= 2, similar to checkpoint1/)/
+├── epochB_step... (only exists when SAVE_BEST_N_CKPTS >= 2, similar to epochA_.../)/
 │   ├── config.json
 │   └── pytorch_model.bin
 │   └── tokenizer.json
@@ -143,17 +144,39 @@ output_dir_in_training_scripts/
 │
 └── ...
 │
-└── args.json (The arguments in training)
+└── args.json (The arguments of training)
 │
-└── train.log (The log file in training)
+└── train.log (Training log)
 ```
-
+For LoRA fine-tuning, the file structure of the output directory is as follows (take TinyLLaMA LoRA SFT as an example):
+```
+./outputs/tinyllama/tinyllama-1.1b-3T/sft/criterion=cross_entropy__lora-rank=256-alpha=8.../
+│
+├── epochA_step... (model files of epoch A, you can directly load it by AutoModelForCausalLM.from_pretrained(this path))/
+│   ├── adapter_config.json
+│   └── adapter_model.bin
+│   └── tokenizer.json
+│   └── ...
+│
+├── epochB_step... (only exists when SAVE_BEST_N_CKPTS >= 2, similar to epochA_.../)/
+│   ├── adapter_config.json
+│   └── adapter_model.bin
+│   └── tokenizer.json
+│   └── ...
+│
+└── ...
+│
+└── args.json (The arguments of training)
+│
+└── train.log (Training log)
+```
 
 ## Evaluation
 ### Evaluate Full Fine-tuning Checkpoints
 ```bash
 bash scripts/gpt2/run_eval.sh ${CKPT_PATH} ${EVAL_BATCH_SIZE}
 ```
+According to the above structure, `CKPT_PATH` is the **absolute path** of the model files like `/home/xxx/DSKD/outputs/gpt2/gpt2-base/sft/criterion=cross_entropy__default-bf16__.../epochA_step...`.
 
 ### Evaluate LoRA Fine-tuning Checkpoints
 ```bash
@@ -161,6 +184,7 @@ bash scripts/tinyllama/run_eval_lora.sh ${LORA_ADAPTER_PATH} ${EVAL_BATCH_SIZE}
 ```
 Please note to change `MODEL_PATH` for different base models (TinyLLaMA, LLaMA2, Mistral).
 
+Similarly, `LORA_ADAPTER_PATH` is the **absolute path** of the LoRA adapter files like `/home/xxx/DSKD/outputs/tinyllama/tinyllama-1.1b-3T/sft/criterion=cross_entropy__lora-rank=256-alpha=8.../epochA_step...`.
 
 ## BibTeX
 If you find this repo useful for your research, please consider citing our paper:
