@@ -174,15 +174,15 @@ For LoRA fine-tuning, the file structure of the output directory is as follows (
 ## Evaluation
 ### Evaluate Full Fine-tuning Checkpoints
 ```bash
-bash scripts/gpt2/run_eval.sh ${CKPT_PATH} ${EVAL_BATCH_SIZE}
+bash scripts/eval/run_eval.sh ${CKPT_PATH} ${EVAL_BATCH_SIZE}
 ```
 According to the above structure, `CKPT_PATH` is the **absolute path** of the model files like `/home/xxx/DSKD/outputs/gpt2/gpt2-base/sft/criterion=cross_entropy__default-bf16__.../epochA_step...`.
 
 ### Evaluate LoRA Fine-tuning Checkpoints
 ```bash
-bash scripts/tinyllama/run_eval_lora.sh ${LORA_ADAPTER_PATH} ${EVAL_BATCH_SIZE}
+bash scripts/eval/run_eval_lora.sh ${LORA_ADAPTER_PATH} ${EVAL_BATCH_SIZE}
 ```
-Please note to change `MODEL_PATH` for different base models (TinyLLaMA, LLaMA2, Mistral).
+Please note that `MODEL_PATH` in `run_eval_lora.sh` should be changed for different base models (TinyLLaMA, LLaMA2, Mistral).
 
 Similarly, `LORA_ADAPTER_PATH` is the **absolute path** of the LoRA adapter files like `/home/xxx/DSKD/outputs/tinyllama/tinyllama-1.1b-3T/sft/criterion=cross_entropy__lora-rank=256-alpha=8.../epochA_step...`.
 
