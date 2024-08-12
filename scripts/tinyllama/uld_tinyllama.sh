@@ -84,10 +84,6 @@ OPTS+=" --peft lora"
 OPTS+=" --peft-lora-r ${LORA_RANK}"
 OPTS+=" --peft-lora-alpha ${LORA_ALPHA}"
 OPTS+=" --peft-lora-dropout ${LORA_DROPOUT}"
-# distiller
-OPTS+=" --projector-lr ${PROJECTOR_LR}"
-OPTS+=" --projector-config-path ${PROJECTOR_CONFIG_PATH}"
-# OPTS+=" --projector-path ${PROJECTOR_PATH}"
 # length
 OPTS+=" --max-length ${MAX_LENGTH}"
 OPTS+=" --max-prompt-length 256"
