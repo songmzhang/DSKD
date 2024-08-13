@@ -263,7 +263,7 @@ def get_optimizer_params_peft(args, model: nn.Module):
 
 def get_tokenizer(args):
     tokenizer = AutoTokenizer.from_pretrained(args.model_path)
-    if args.model_type in ["gpt2", "opt", "llama", "gptj", "llama2", "mistral"]:
+    if args.model_type in ["gpt2", "opt", "llama", "gptj", "llama2", "mistral", "tinyllama"]:
         tokenizer.pad_token_id = tokenizer.eos_token_id
     elif args.model_type=="qwen":
         tokenizer.pad_token_id = 151646
