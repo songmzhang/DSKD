@@ -91,20 +91,11 @@ def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
             dataset.move_to_device(model_batch, no_model_batch, device)
 
             all_ids = torch.cat([model_batch["input_ids"], no_model_batch["rest_ids"]], dim=-1)
-            # all_ids = model_batch["input_ids"]
             input_ids = all_ids[:, :-1]
             attention_mask = (input_ids != tokenizer.pad_token_id).long()
             label_ids = all_ids[:, 1:]
             label_ids = torch.masked_fill(label_ids, label_ids == tokenizer.pad_token_id, -100)
-            # input_len = input_ids.ne(tokenizer.pad_token_id).sum()
-            # print(input_ids)
-            # label_ids[:, input_len:] = -100
             label_ids[:, :model_batch["input_ids"].size(1)-1] = -100
-            # print(model_batch["input_ids"][-7], no_model_batch["rest_ids"][-7])
-            # adsf  
-            # label_ids[:, :model_batch["prompt_ids"].size(1)-1] = -100
-            # print(input_ids)
-            # asfd
             if args.model_type in ["gpt2"]:
                 position_ids = (torch.cumsum(attention_mask, dim=-1) - 1) * attention_mask
                 # print(input_ids[0], position_ids[0], attention_mask[0])
@@ -122,10 +113,6 @@ def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
                 )
             logits = out.logits
             loss_mask = (label_ids != -100).float()
-            # if args.model_parallel:
-            #     lm_loss = mpu.parallel_cross_entropy(logits, label_ids)
-            #     lm_loss = torch.sum(lm_loss * loss_mask, dim=-1) / torch.sum(loss_mask, dim=-1)
-            # else:
             loss_func = nn.CrossEntropyLoss(reduction="none")
             lm_loss = loss_func(
                 logits.view(-1, logits.size(-1)), 
@@ -133,25 +120,15 @@ def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
             ).view(label_ids.size())
             lm_loss_mean = torch.sum(lm_loss * loss_mask, -1) / torch.sum(loss_mask, -1)
             all_lm_losses.append(lm_loss_mean)
-            # print(lm_loss)
-            # asfd
  
             query_ids = model_batch["input_ids"]
             max_new_tokens = args.max_length - query_ids.size(1)
             
-            # first_line = model_batch["input_ids"][0, 138:]
-            # tokens = tokenizer.convert_ids_to_tokens(first_line)
             gen_out = model.generate(
                 **model_batch,
                 generation_config=generation_config,
                 max_new_tokens=max_new_tokens
             )
-            # print(generation_config)
-            # print(model_batch)
-            # print(tokenizer.convert_ids_to_tokens(gen_out.sequences[0]))
-            # print("\n++++++++++++++++++++\n")
-            # print(tokenizer.decode(gen_out.sequences[0, model_batch["input_ids"].size(1):], skip_special_tokens=True))
-            # sdf
             full_ids = gen_out.sequences
             response_ids = full_ids[:, query_ids.size(1):] # remove prompt (may include start token)
             
@@ -168,7 +145,6 @@ def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
             
             all_query_ids.append(query_ids)
             all_response_ids.append(response_ids)
-            # break
 
     all_lm_losses = torch.cat(all_lm_losses)
     mean_lm_loss = all_lm_losses.mean()
