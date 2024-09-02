@@ -91,9 +91,11 @@ OPTS+=" --seed ${SEED}"
 # deepspeed
 OPTS+=" --deepspeed"
 if [[ $PRECISION == "bf16" ]]; then
-    OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config_zero2_bf16.json"
+    OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config_bf16.json"
 elif [[ $PRECISION == "fp16" ]]; then
-    OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config_zero2.json"
+    OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config.json"
+elif [[ $PRECISION == "fp32" ]]; then
+    OPTS+=" --deepspeed_config ${BASE_PATH}/configs/deepspeed/ds_config_fp32.json"
 fi
 # gen
 OPTS+=" --do-sample"
