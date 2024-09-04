@@ -531,9 +531,8 @@ def main():
     args.fp32 = not ds_config["fp16"]["enabled"]
     if "bf16" in ds_config:
         args.fp32 = not ds_config["bf16"]["enabled"]
-    args.deepspeed_config = None
-
     log_rank(args)
+    args.deepspeed_config = None
     
     log_rank("Initializing a distiller for knowledge distillation...")
     distiller = Distiller(args, device)
