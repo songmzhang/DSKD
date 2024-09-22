@@ -7,6 +7,9 @@
 
 Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/minillm) and [Distillm](https://github.com/jongwooko/distillm/tree/master).
 
+## News
+\[2024.09.22\] Our paper has been accepted by the main conference of EMNLP 2024 🥳🥳！
+
 ## Requirements
 - deepspeed >= 0.14.0
 - torch >= 2.0.1
