@@ -15,6 +15,7 @@ from transformers import (
     AutoTokenizer,
     GenerationConfig
 )
+from transformers.integrations import HfDeepSpeedConfig
 from arguments import get_args
 from distiller import Distiller
 from data_utils.distill_datasets import DistillDataset
@@ -533,6 +534,12 @@ def main():
         args.fp32 = not ds_config["bf16"]["enabled"]
     log_rank(args)
     args.deepspeed_config = None
+    
+    # prepare for deepspeed ZeRO-3
+    if ds_config is not None and ds_config["zero_optimization"]["stage"] == 3:
+        dschf = HfDeepSpeedConfig(ds_config)
+    else:
+        dschf = None
     
     log_rank("Initializing a distiller for knowledge distillation...")
     distiller = Distiller(args, device)
