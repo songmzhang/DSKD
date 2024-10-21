@@ -58,6 +58,11 @@ class VariousDivergence(CrossEntropyLoss):
                 output_hidden_states=True)
             teacher_logits = teacher_outputs.logits
         
+        # Qwen has different vocab_size for models in different sizes (see https://github.com/QwenLM/Qwen/issues/419)
+        if self.args.model_type == "qwen":
+            logits = logits[..., :151851]
+            teacher_logits = teacher_logits[..., :151851]
+        
         kd_loss = self.dist_func(logits, teacher_logits, output_data["label"])
         log["kd_loss"] = kd_loss
 
