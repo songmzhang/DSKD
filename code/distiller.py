@@ -28,7 +28,6 @@ class Distiller(nn.Module):
             self.teacher_model, self.teacher_tokenizers = self.load_teacher_model()
         else:
             self.teacher_model, self.teacher_tokenizers = None, {}
-        
         self.teacher_model_type = args.teacher_model_type
 
         if self.teacher_model and args.projector_config_path:
@@ -168,33 +167,24 @@ class Distiller(nn.Module):
             self.student_hidden_size = config.n_embed
         else:
             self.student_hidden_size = config.hidden_size
-
+        
         if self.args.model_dtype == "fp32":
-            dtype = torch.float32
+            self.dtype = torch.float32
         elif self.args.model_dtype == "bf16":
-            dtype = torch.bfloat16
+            self.dtype = torch.bfloat16
         elif self.args.model_dtype == "fp16":
-            dtype = torch.float16
+            self.dtype = torch.float16
         else:
             raise NotImplementedError("Invalid model_dtype for f`{self.args.model_dtype}`")
         
-        try:
-            model = AutoModelForCausalLM.from_pretrained(
-                self.args.model_path, 
-                config=config, 
-                device_map={"": self.device}, 
-                torch_dtype=dtype,
-                trust_remote_code=True
-            )
-        except:
-            model = AutoModelForCausalLM.from_pretrained(
-                self.args.model_path, 
-                config=config, 
-                device_map={"": self.device}, 
-                torch_dtype=torch.float32,
-            )
-            model = model.half()
-            
+        model = AutoModelForCausalLM.from_pretrained(
+            self.args.model_path, 
+            config=config, 
+            device_map=None, 
+            torch_dtype=self.dtype,
+            trust_remote_code=True,
+        )
+
         if self.args.peft is not None:
             if self.args.peft == "lora":
                 model.enable_input_require_grads()
@@ -249,21 +239,13 @@ class Distiller(nn.Module):
         else:
             self.teacher_hidden_size = config.hidden_size
 
-        try:
-            model = AutoModelForCausalLM.from_pretrained(
-                self.args.teacher_model_path, 
-                config=config, 
-                device_map={"": self.device}, 
-                torch_dtype=torch.float16
-            )
-        except:
-            model = AutoModelForCausalLM.from_pretrained(
-                self.args.teacher_model_path, 
-                config=config, 
-                device_map={"": self.device}, 
-                torch_dtype=torch.float32
-            )
-            model = model.half()
+        model = AutoModelForCausalLM.from_pretrained(
+            self.args.teacher_model_path, 
+            config=config, 
+            device_map=None, 
+            torch_dtype=self.dtype,
+            trust_remote_code=True
+        )
 
         if self.args.peft is not None and self.args.teacher_peft_path is not None:
             if self.args.peft == "lora":
@@ -275,6 +257,8 @@ class Distiller(nn.Module):
             log_rank(' > number of parameters of the teacher model: {:,}'.format(
                 sum([p.nelement() for p in model.parameters()])
             ))
+        for params in model.parameters():
+            params.requires_grad = False
         return model, {self.args.teacher_model_type: tokenizer}
     
     def add_optimizer_param_group(self, optimizer):
