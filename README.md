@@ -1,4 +1,4 @@
-# Dual-Space Knowledge Distillation for Large Language Models
+# Dual-Space Knowledge Distillation for Large Language Models (EMNLP 2024)
 
 <small>Songming Zhang, Xue Zhang, Zengkui Sun, Yufeng Chen*, Jinan Xu</small>
 
