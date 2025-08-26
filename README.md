@@ -8,7 +8,7 @@
 Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/minillm) and [Distillm](https://github.com/jongwooko/distillm/tree/master).
 
 ## News
-- \[2025.04\] We have released [DSKDv2](https://github.com/songmzhang/DSKDv2)! DSKDv2 introduces **better projector initialization** and supports **on-policy** distillation.
+- \[2025.04\] We have released [DSKDv2](https://github.com/songmzhang/DSKDv2)! DSKDv2 introduces **better projector initialization** and supports **on-policy** distillation. Welcome to try~
 - \[2024.10.21\] Our code has supported the distillation from a **72B** model to a 1.5B model with DeepSpeed ZeRO-3.
 - \[2024.09.21\] Our paper has been accepted by the main conference of EMNLP 2024！🥳🥳
 
