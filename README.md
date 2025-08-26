@@ -1,6 +1,6 @@
 # Dual-Space Knowledge Distillation for Large Language Models (EMNLP 2024)
 
-<small>Songming Zhang, Xue Zhang, Zengkui Sun, Yufeng Chen*, Jinan Xu</small>
+<small>[Songming Zhang](https://songmzhang.github.io/), Xue Zhang, Zengkui Sun, Yufeng Chen*, Jinan Xu</small>
 
 <a href="https://arxiv.org/abs/2406.17328"><img src="https://img.shields.io/badge/Paper-arXiv:2406.17328-Green"></a>
 <a href=#bibtex><img src="https://img.shields.io/badge/Paper-BibTex-yellow"></a>
@@ -8,6 +8,7 @@
 Some of our code follows [MiniLLM](https://github.com/microsoft/LMOps/tree/main/minillm) and [Distillm](https://github.com/jongwooko/distillm/tree/master).
 
 ## News
+- \[2025.04\] We have released [DSKDv2](https://github.com/songmzhang/DSKDv2)! DSKDv2 introduces **better projector initialization** and supports **on-policy** distillation.
 - \[2024.10.21\] Our code has supported the distillation from a **72B** model to a 1.5B model with DeepSpeed ZeRO-3.
 - \[2024.09.21\] Our paper has been accepted by the main conference of EMNLP 2024！🥳🥳
 
